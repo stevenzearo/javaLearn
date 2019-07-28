@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="userRateCount">
+    <output-path>$PROJECT_DIR$/out/artifacts/userRateCount</output-path>
+    <root id="archive" name="userRateCount.jar">
+      <element id="module-output" name="userRateCount" />
+    </root>
+  </artifact>
+</component>

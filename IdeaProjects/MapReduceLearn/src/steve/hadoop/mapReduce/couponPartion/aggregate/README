@@ -1,0 +1,2 @@
+对优惠券信息进行统计,输出优惠券的Discount_rate和被使用频率
+User_id,Merchant_id,Coupon_id,Discount_rate,Distance,Date_received

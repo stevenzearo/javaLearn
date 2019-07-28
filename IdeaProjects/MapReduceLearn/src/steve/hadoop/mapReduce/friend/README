@@ -1,0 +1,5 @@
+任务:根据xx.txt文件找出两两间的共同好友
+A:B,C,D,F,E,O
+B:A,C,E,K
+C:F,A,D,I
+思路 <B, A>

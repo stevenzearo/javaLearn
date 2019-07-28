@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="mapReduceLearn">
+    <output-path>$PROJECT_DIR$/out/artifacts/mapReduceLearn</output-path>
+    <root id="archive" name="mapReduceLearn.jar">
+      <element id="module-output" name="mapReduceLearn" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,3 @@
+在自定义hadoop的writable对象是需要实现接口WritableComparable(implements),可序列化,可比较
+自定义key的分组方式则需要继承WritableComparator父类(extends)
+对象加入容器中时如果不新生成对象，所存入容器的对象被重复引用，值会不断更新，存入的对象的引用都一样，即存入同一个对象只是值在不断更新

@@ -1,0 +1,23 @@
+数据采集业务设计
+1,流程
+a,启动一个定时任务
+    定时探测日志源目录
+    获取需要采集的文件
+    移动文件到临时目录
+    遍历临时目录各文件上传到HDFS,同时将传输完成的文件移动到备份目录
+b,启动一个定时任务
+    探测备份目录备份数据,检查是否已超出备份时长,若超出,则删除
+路径规划
+日志源目录
+    /home/hadoop/testLog/logs/
+待上传临时目录
+    /home/hadoop/testLog/tempUpload/
+备份目录
+    /home/hadoop/testLog/backup/<date>/
+hdfs存储路径
+
+    /mydata/logs/<date>/
+hdfs文件前缀
+    testLog
+hdfs文件后缀
+    .log

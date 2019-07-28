@@ -1,0 +1,13 @@
+wordCount业务目的
+    统计文件中出现的单词并进行降序排列
+业务流程
+    1,Map
+    2,Reduce
+    3,Save
+WordCountMain为主程序入口
+mapper为map模块
+reducer为reduce模块
+
+map操作后将结果保存到本地临时文件
+
+reduce操作后将文件保存到hdfs

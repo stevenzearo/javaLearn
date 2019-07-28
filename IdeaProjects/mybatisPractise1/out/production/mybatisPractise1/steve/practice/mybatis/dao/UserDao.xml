@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="steve.practice.mybatis.dao.UserDao">
+    <!--多值传入时，须传入类对象-->
+    <!--<select id="findUserByNameAndPassword" parameterType="user" resultType="user">-->
+
+    <select id="findUserByNameAndPassword" parameterType="user" resultMap="userMap">
+        <!--当数据库列名与类属性名不一致时可采用sql中结果加别名或者resultMap-->
+        select * from taobao.user_info where name=#{name} and password=#{password}
+    </select>
+    <resultMap id="userMap" type="user">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
+    <select id="findUsersAndOrders" resultMap="userOrdersMap">
+        select user_info.*,orders.* from user_info left join orders on user_info.user_id = orders.user_id
+    </select>
+    <resultMap id="userOrdersMap" type="user">
+        <id property="id" column="user_id"/>
+        <result property="name" column="user_name"/>
+        <result property="age" column="age"/>
+        <result property="password" column="password"/>
+
+        <!--collection用于一对多的高级查询ofType指定集合中元素的类型，与association中有区别-->
+        <collection property="orderList" ofType="order">
+            <id property="id" column="order_id"/>
+            <result property="count" column="count"/>
+            <result property="status" column="status"/>
+        </collection>
+
+    </resultMap>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--指定格式文件的约束文件-->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org//dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties"></properties>
+    <!--环境（数据源信息）-->
+    <environments default="development">
+        <!--子环境-->
+        <environment id="development">
+            <!--设置事物管理器为JDBC-->
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <!--设置数据源的配置信息-->
+                <property name="driver" value="${jdbc.DriverClassName}"></property>
+                <property name="url" value="${jdbc.url}"></property>
+                <property name="username" value="${jdbc.username}"></property>
+                <property name="password" value="${jdbc.password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--设置数据库到java类的映射关系-->
+    <mappers>
+        <mapper resource="user.xml"></mapper>
+    </mappers>
+
+</configuration>

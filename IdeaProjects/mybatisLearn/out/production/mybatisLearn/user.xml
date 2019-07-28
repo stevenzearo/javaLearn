@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--user表到User类的映射关系文件-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--设置mapper映射的命名空间（用于区分）-->
+<mapper namespace="dao.UserDao">
+    <!--设置sql语句的唯一标识-->
+    <select id="findUserById" parameterType="java.lang.Integer" resultType="model.User">
+        <!--#表示占位符-->
+        select * from mybatisLearn.my_user where id=#{id}
+    </select>
+    <select id="findUsersByName" parameterType="java.lang.String" resultType="model.User">
+        <!--$表示字符串替换-->
+        select * from mybatisLearn.my_user where uname like '%${value}%'
+    </select>
+    <insert id="addUser" parameterType="model.User">
+        <!--设置主键回填为after,可以获取最后一次插入时的id-->
+        <selectKey order="AFTER" keyProperty="id" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into mybatisLearn.my_user (id,uname,age) values (#{id},#{uname},#{age})
+    </insert>
+    <update id="updateUser" parameterType="model.User">
+        update mybatisLearn.my_user set uname=#{uname},age=#{age} where id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from mybatisLearn.my_user where id=#{id}
+    </delete>
+
+
+</mapper>

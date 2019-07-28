@@ -1,0 +1,29 @@
+Char.MinValue.toInt
+Char.MaxValue.toInt
+math.pow(2,16)
+Byte.MinValue
+Byte.MaxValue
+math.pow(2,7)
+Short.MinValue
+Short.MaxValue
+math.pow(2,15)
+Int.MinValue
+Int.MaxValue
+math.pow(2,31).toInt
+Float.MinValue
+Double.MinValue
+"100".toInt
+"100".toFloat
+"100".toDouble
+"1".toLong
+"1".toShort
+"1".toByte
+val a = BigInt("1")
+val b = BigDecimal("1.23")
+Integer.parseInt("113",4)
+/**
+通过进制将字符型的数值转化为相应进制的数值的十进制数值
+如（“113”，4）对应1*（4**2）+1*4+3=23
+因此上式返回值为23
+  *
+  */

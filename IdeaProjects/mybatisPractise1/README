@@ -1,0 +1,7 @@
+模拟用户登陆案例
+    多对多时需要建立中间表进行连接
+    一对多则只需要建立外键
+    表连接
+        select <>,<> from <table_name1> left/right outer join <table_name2> on <condition>;
+        select <>,<> from <table_name1> [inner] join <table_name2> on <condition>;
+        mysql不存在全连接，使用union连接左连接和右连接得到的结果获得全连接的结果

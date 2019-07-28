@@ -1,0 +1,18 @@
+hashMap保存order
+order
+    orderId
+    pdtId
+    pdtNum
+<orderId, order>
+hashMap保存product
+product
+    pId
+    pName
+    pPrice
+<pId, product>
+<orderId, OrderDetail>
+orderDetail
+    orderId
+    products
+    amount
+orderDetail

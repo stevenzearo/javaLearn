@@ -1,0 +1,16 @@
+Q1:最开始如何传值到map函数？
+map函数处理：
+    行索引,行值构成键值对<k1,v1>
+    对每行要处理的数据进行标注构成新的键值对<k2,v2>
+    键值对进行整合处理<k2,list(v2)>,传入reduce函数
+reduce函数处理：
+    对传入的<k2,list(v2)>进行reduce操作返回<k3,v3>
+mapReduce编程
+    分别编写Mapper类、Reducer类及主函数类
+    Mapper类主要编写map操作，键值对的提取预处理
+    Reducer类主要编写reduce操作，键值对的排序分类等操作
+    主函数类主要编写输入输出流程控制相关参数
+    然后编译打包
+javac 编译
+jar -cvf <classname>.jar <classname>*.class
+hadoop jar <classname>.jar classname input output

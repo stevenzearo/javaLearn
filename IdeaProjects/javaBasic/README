@@ -1,0 +1,5 @@
+java基础复习
+    抽象类可作为具体类的父类，可以有抽象方法，抽象类没有实例对象，抽象类的子类在继承父类时必须重写父类的抽象方法
+    反射作用：通过配置文件创建对象，并构造方法
+    代理：通过socket通信和反射创建对象
+    Exception (IOException,ClassNotFoundException)

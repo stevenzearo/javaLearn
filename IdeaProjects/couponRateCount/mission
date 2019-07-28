@@ -1,0 +1,15 @@
+对所用户所领取的优惠券进行统计
+思路
+User_id,Merchant_id,Coupon_id,Discount_rate,Distance,Date_received
+第一个mapReduce
+1,map阶段
+建立<User_id, <Coupon_id,1>>键值对记录用户领取过的Coupon
+
+2,reduce阶段
+对<User_id, <Coupon_id,1>>进行统计生成<User_id, Iterator<Coupon_id, times>>键值对
+
+第二个mapReduce
+4,重新建立<User_id, times>, Coupon_id键值
+3,reduce阶段
+对<User_id, times>, Coupon_id键值对进行整合,去冗余
+生成User_id, ArrayList<Coupon_id, times>键值对

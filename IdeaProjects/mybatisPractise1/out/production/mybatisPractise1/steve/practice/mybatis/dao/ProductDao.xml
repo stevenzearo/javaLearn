@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="steve.practice.mybatis.dao.ProductDao">
+
+    <select id="findProductsByNameAndPrice" parameterType="product" resultMap="productMap">
+        select * from product
+        <where>
+            <!--where代表多条件查询，会自动过滤掉多余的and-->
+            <!--引用公共代码块-->
+            <include refid="products_query"/>
+        </where>
+    </select>
+
+    <resultMap id="productMap" type="product">
+        <id property="id" column="product_id"/>
+        <result property="name" column="product_name"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <delete id="deleteProducts" parameterType="steve.practice.mybatis.viewObject.ProductVo" >
+        delete from product
+        <where>
+            <foreach collection="ids" open="id in (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <!--设置公共sql代码块-->
+    <sql id="products_query">
+        <if test="name != null and name != ''">
+            and name like '%${name}%'
+        </if>
+        <if test="price != null and price != ''">
+            and price = #{price}
+        </if>
+    </sql>
+
+</mapper>

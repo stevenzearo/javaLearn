@@ -1,0 +1,161 @@
+hive运行方式：
+1.hive shell运行
+2.命令行
+3.脚本文件.sh/.hql
+4.服务器+客户端
+语法
+create database <>;
+create table(<column-name> <type>, ...) row format delimited fields terminated by ',';
+drop table;
+外部表可以任意指定表的数据存储路径
+create external table(<column-name> <type>, ...) row format delimited fields terminated by ',';
+分区表
+表的目录下还有子目录，子目录可以作为查询的标记
+分区字段不能是表中的已有的字段
+create table() partitioned by (<column_name> <type>) row format delimited fields terminated by ',';
+上传数据
+本地上传(上传文件put)：load data local inpath '<>' into table partition(<sig>=<val>);
+HDFS上传(移动文件mv)：load data inpath '<>' into table partition(<sig>=<val>);
+HQL语法
+        create table <>(<> <>, ...) row format delimited fields terminated by ',;
+
+        drop table <>;
+
+        select <result>
+        from <data>
+        where <condition>;
+        join
+    内连接(inner) join
+    左(外)连接 left (outer) join
+    右(外)连接 right (outer) join
+    全连接 full (outer) join
+    左半连接 left semi join
+    分组聚合查询group by(一般与函数有关)
+    <分组>计算url出现次数
+        select url,count(1) num
+        from pv_log
+        group  by url;
+    <多重分组> group by <column_name1>,<column_name2>
+    having 和 where区别having在group by后过滤
+    子查询
+        select <final_result>
+        from
+        (select <result1>
+        from <data>
+        [where <condition> [group by <column_name>]] )
+        <result1_name>
+        where <condition> group by <result1.column_name>;
+特殊数据类型
+    array<type>
+        定义分割方式
+        collection items terminated by ':';
+        select name, actors[0] actor_1,first_show from movies;
+    map<type1,type2>
+    定义分割方式
+        collection items terminated by '#';
+        may keys terminated by ':';
+        select id,name,age,map_keys(family_members) as relations from family;
+        select id,name,age,brother
+        from
+        (select id,name,age,family_members['brother'] as brother,map_keys(family_members) as relations
+         from family)
+        tmp
+        where array_contains(relations, 'brother');
+        上一语句与下一语句等价
+        select id,name,age,family_members['brother'] brother from family where family_members['brother'] is not null;
+
+    struct：类似class
+        struct<attrName:type, ....>
+
+        create table userInfo(id int, name string, info struct<age:int, sel:string, addr:string>)
+         row format delimited fields terminated by ','
+         collection items terminated by ':';
+
+        属性调用<struct>.<attr>
+        select id,name,info.addr as addr from userInfo;
+
+常用函数
+show functions;
+substr(val, start, end)求子串
+cast(val as type)类型强转
+round(val, num_of_float)四舍五入
+ceil(val)
+floor()
+abs()
+greatest()可传多值，求最大项
+least()可传多值，求最小项
+concat()字符串拼接
+concat_ws()带拼接字符的字符串拼接
+时间日期函数
+current_timestamp
+unix_timestamp()字符串转时间戳
+from_unixtime(<timestamp>)时间戳转字符串
+to_date()字符串转date
+表生成函数
+    explode()对数组字段炸裂
+实现wordCount
+'''
+hello tom hello jim
+hello rose hello tom
+tom love rose rose love jim
+jim love tom love is what
+what is love
+'''
+create table wordCount(sentence string);
+load data local inpath 'myData/hiveLearn/wordCount.txt' into table wordCount;
+select words, count(1) num from
+    ((select explode(tmp.words) words
+      from (
+          select split(sentence, ' ') words
+          from wordCount) tmp))
+      explode_words
+group by word
+order by num desc;
+create table user_latest_login as select ip,day,max(login) max_login from user_log group by ip,day;
+select user_log.ip,user_log.name,user_log.login,user_log.url,user_log.day from user_log,user_latest_login where user_log.login = user_latest_login.max_login and user_log.ip = user_latest_login.ip;
+(select ip,day,max(login) max_login from user_log group by ip,day) tmp
+
+select user_log.ip,user_log.name,user_log.login,user_log.url,user_log.day
+from user_log,
+    (select ip,day,max(login) max_login
+    from user_log
+    group by ip,day)
+    tmp
+where user_log.login = tmp.max_login and user_log.ip = tmp.ip;
+条件控制函数
+    case
+    when <condition> then <result>
+    else <result>
+    end
+if (<condition>,<result1>,<result2>)
+select name,actors,first_show, if (array_contains(actors, '吴京'),'good','shit') quality from movies;
+窗口分析函数
+    1,分组topN
+            row_number() over()
+            select * from (select id,name,age,sex,row_number() over(partition by sex order by age desc) rn from table_rn) tmp where rn < 3;
+    2,累计报表
+            sum() over()
+修改表
+    alter table row_number change column name name string;
+累计报表
+    累计至当前总额
+        累计每月总额 得 amount2
+            create table amount2 as select name,month,sum(num) amount from amount group by name,month;
+        对同一表连接 条件 name相同且a.month <= b.month
+            create table tmp as select a.amount a_mount,b.* from amount2 a,amount2 b where a.name = b.name and a.month <= b.month;
+        分组聚合
+            注:amount聚合后的值都相同所以选择max()函数聚合得到的结果对每条数据都不影响
+            select name,month,max(amount) amount,sum(a_mount) accumulate from tmp group by name,month;
+    窗口分析函数实现(结果作为一列)
+        sum(<>) over(partition by <> order by <> rows between unbounded preceding and current row)
+        累计每月总额 得 amount2
+            create table amount2 as select name,month,sum(num) amount from amount group by name,month;
+        累加至当前月份
+            select name,month,amount,(sum(amount) over(partition by name order by month rows between unbounded preceding and current row)) as accumulate from amount2;
+******重载同名方法参数不同
+******重写方法签名相同@override
+创建自定义函数
+
+    add jar /home/hadoop/myHiveFunction.jar;
+    create temporary function myjson as 'steve.hadoop.hive.MyJsonParser';
+truncate清空表数据

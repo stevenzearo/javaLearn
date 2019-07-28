@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="share">
+    <CLASSES>
+      <root url="file://$USER_HOME$/hadoop/share" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$USER_HOME$/hadoop/share/doc/hadoop/api" />
+      <root url="file://$USER_HOME$/hadoop/share/doc/hadoop/hadoop-hdfs-httpfs/apidocs" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

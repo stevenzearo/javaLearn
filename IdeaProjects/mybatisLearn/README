@@ -1,0 +1,16 @@
+mybatis DAO层传入参数时只能传入一个参数，需要传入多个参数时需要将多个参数封装到一个类当中
+settings配置全局参数
+mappers配置映射关系可批量定义，批量定义时mapper.xml和接口须在同一个文件中<package name="dao"/>
+typeAliases添加类型别名，默认别名为类名小写，可批量定义<package name="model"/>
+mybatis.xml配置内容顺序
+properties属性
+settings全局配置参数
+typeAliases类型别名
+typeHandlers类型转换
+objectFactory对象工厂
+plugins插件
+environments环境集合属性对象
+    environment环境子属性对象
+        transactionManager事物管理器
+            dataSource数据源
+Mappers映射器
